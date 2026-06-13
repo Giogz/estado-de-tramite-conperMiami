@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulado General del Perú en Miami | Estado de Trámite</title>
+<style>
+  :root {
+    --rojo:       #D2232A;
+    --rojo-dark:  #B01D23;
+    --gris:       #58595B;
+    --gris-claro: #f4f4f5;
+    --gris-borde: #e0e0e1;
+    --negro:      #1a1a1c;
+    --blanco:     #ffffff;
+    --verde:      #1e7e34;
+    --verde-bg:   #e6f4ea;
+    --naranja:    #b35900;
+    --naranja-bg: #fdecd9;
+    --azul:       #1d5a96;
+    --azul-bg:    #e3eefb;
+    --radio:      10px;
+    --sombra:     0 2px 12px rgba(0,0,0,.09);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--gris-claro);
+    color: var(--negro);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--blanco);
+    border-bottom: 4px solid var(--rojo);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.07);
+  }
+  .site-header img {
+    max-height: 72px;
+    width: auto;
+    max-width: 100%;
+  }
+
+  /* LAYOUT */
+  .page-wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 36px 20px 32px;
+  }
+
+  /* TÍTULO */
+  .titulo { text-align: center; margin-bottom: 32px; }
+  .titulo h1 {
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    font-weight: 800;
+    color: var(--gris);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .titulo .subtitulo {
+    margin-top: 6px;
+    font-size: .9rem;
+    color: #9a9a9e;
+  }
+
+  /* TARJETA */
+  .card {
+    background: var(--blanco);
+    border-radius: 16px;
+    box-shadow: var(--sombra);
+    border: 1px solid var(--gris-borde);
+    overflow: hidden;
+  }
+
+  /* TABS */
+  .doc-tabs { display: grid; grid-template-columns: 1fr 1fr; }
+  .btn-tipo {
+    background: var(--gris-claro);
+    color: var(--gris);
+    border: none;
+    border-bottom: 3px solid var(--gris-borde);
+    padding: 20px 12px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .18s ease;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .btn-tipo:first-child { border-right: 1px solid var(--gris-borde); }
+  .btn-tipo:hover { background: #ececed; color: var(--negro); }
+  .btn-tipo.activo {
+    background: var(--blanco);
+    color: var(--rojo);
+    border-bottom: 3px solid var(--rojo);
+  }
+
+  /* CUERPO */
+  .card-body { padding: 28px 24px; }
+
+  /* BÚSQUEDA */
+  .search-label {
+    display: block;
+    font-size: .82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #9a9a9e;
+    margin-bottom: 10px;
+  }
+  .search-row { display: flex; gap: 10px; flex-direction: column; }
+  @media (min-width: 460px) { .search-row { flex-direction: row; } }
+
+  .search-input {
+    flex: 1;
+    padding: 14px 16px;
+    font-size: 1.05rem;
+    border: 1.5px solid var(--gris-borde);
+    border-radius: var(--radio);
+    outline: none;
+    background: var(--gris-claro);
+    color: var(--negro);
+    transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  .search-input:focus {
+    border-color: var(--rojo);
+    background: var(--blanco);
+    box-shadow: 0 0 0 3px rgba(210,35,42,.12);
+  }
+  .btn-buscar {
+    background: var(--rojo);
+    color: var(--blanco);
+    border: none;
+    border-radius: var(--radio);
+    padding: 14px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s, transform .05s;
+    white-space: nowrap;
+  }
+  .btn-buscar:hover  { background: var(--rojo-dark); }
+  .btn-buscar:active { transform: translateY(1px); }
+
+  /* RESULTADO */
+  .resultado-wrap { margin-top: 22px; display: none; }
+  .resultado-wrap.visible { display: block; animation: fadeUp .3s ease; }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(-8px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .resultado-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1.5px solid var(--gris-claro);
+  }
+  .resultado-header h2 {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--gris);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .datos-grid { display: grid; gap: 10px; }
+  .dato-item {
+    background: var(--gris-claro);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .dato-label {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #9a9a9e;
+  }
+  .dato-valor {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--negro);
+  }
+
+  .badge {
+    display: block;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: .95rem;
+    font-weight: 700;
+    line-height: 1.6;
+    width: 100%;
+  }
+  .badge.ok     { background: var(--verde-bg);  color: var(--verde);   }
+  .badge.alerta { background: var(--naranja-bg); color: var(--naranja); }
+  .badge.info   { background: var(--azul-bg);   color: var(--azul);    }
+
+  .no-encontrado {
+    background: #fff5f5;
+    border: 1.5px solid #fdd;
+    border-left: 5px solid var(--rojo);
+    border-radius: var(--radio);
+    padding: 16px 20px;
+    font-size: .95rem;
+  }
+  .no-encontrado strong { color: var(--rojo); }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 20px 20px 0;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .footer p   { font-size: .82rem; color: #9a9a9e; line-height: 1.7; }
+  .footer a   { color: var(--rojo); font-weight: 600; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+  .footer .dev {
+    font-size: .75rem; color: #c0c0c4;
+    margin-top: 6px; font-style: italic; letter-spacing: 0.04em;
+  }
+  .footer .heart {
+    color: var(--rojo); font-style: normal;
+    display: inline-block;
+    animation: latido 1.2s ease-in-out infinite;
+  }
+  @keyframes latido {
+    0%,100% { transform: scale(1); }
+    50%     { transform: scale(1.3); }
+  }
+
+  /* BANNER FIJO */
+  .banner-wrap {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 1200px;
+    aspect-ratio: 8 / 1;
+    max-height: 150px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0,0,0,.22);
+    z-index: 1000;
+  }
+  .banner-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+  .banner-slide.activo { opacity: 1; }
+  .banner-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* DOTS */
+  .banner-dots {
+    position: fixed;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 1001;
+  }
+  .dot {
+    width: 5px; height: 5px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.45);
+    transition: all .3s ease;
+    cursor: pointer;
+  }
+  .dot.activo { background: #fff; width: 16px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <img src="assets/logo.png" alt="Consulado General del Perú en Miami">
+</header>
+
+<div class="page-wrap">
+  <div class="titulo">
+    <h1>¿Quieres saber el estado de tu trámite?</h1>
+    <p class="subtitulo">Consulta rápida con tu número de documento</p>
+  </div>
+
+  <div class="card">
+    <div class="doc-tabs">
+      <button type="button" class="btn-tipo activo" id="btn-dni">DNI</button>
+      <button type="button" class="btn-tipo" id="btn-pas">Pasaporte</button>
+    </div>
+    <div class="card-body">
+      <label class="search-label" id="search-label" for="search-input">
+        Número de DNI
+      </label>
+      <div class="search-row">
+        <input class="search-input" type="text" id="search-input"
+               inputmode="numeric" autocomplete="off" placeholder="Ej: 47101040">
+        <button type="button" class="btn-buscar" id="btn-buscar">Buscar</button>
+      </div>
+      <div class="resultado-wrap" id="resultado-wrap"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Si tiene alguna consulta comuníquese con
+    <a href="mailto:informacion@consulado-peru.com">informacion@consulado-peru.com</a>
+  </p>
+  <p class="dev">Developed with <span class="heart">♥</span> by Gio</p>
+</footer>
+
+<!-- =============================================
+     BANNERS — todos 1200x150px (ratio 8:1)
+     Para agregar un banner nuevo:
+       1. Pon la imagen en assets/banners/
+       2. Copia un bloque banner-slide y actualiza el src
+       3. Agrega un <div class="dot"> en banner-dots
+     ============================================= -->
+<div class="banner-wrap" id="banner-wrap">
+  <div class="banner-slide activo">
+    <img src="assets/banners/banner-01-workshop-perusa.png" alt="Workshop PERUSA">
+  </div>
+  <div class="banner-slide">
+    <img src="assets/banners/banner-02-anunciar-aqui.png" alt="Anuncia aquí">
+  </div>
+  <div class="banner-slide">
+    <img src="assets/banners/banner-03-garden-guru.png" alt="Garden Guru">
+  </div>
+  <div class="banner-slide">
+    <img src="assets/banners/banner-04-anunciar-aqui-2.png" alt="Anuncia aquí">
+  </div>
+  <div class="banner-slide">
+    <img src="assets/banners/banner-05-fried-chicken.png" alt="Delicious Fried Chicken">
+  </div>
+  <div class="banner-slide">
+    <img src="assets/banners/banner-06-anunciar-aqui-3.png" alt="Anuncia aquí">
+  </div>
+</div>
+
+<div class="banner-dots" id="banner-dots">
+  <div class="dot activo" data-idx="0"></div>
+  <div class="dot" data-idx="1"></div>
+  <div class="dot" data-idx="2"></div>
+  <div class="dot" data-idx="3"></div>
+  <div class="dot" data-idx="4"></div>
+  <div class="dot" data-idx="5"></div>
+</div>
+
+<script>
+/* =============================================
+   BASE DE DATOS
+   Para actualizar: editar los arrays de abajo
+   con los datos reales del Excel.
+   Columnas: doc (DNI), nombre, apellidos, estado
+   ============================================= */
+const DB = {
+  dni: [
+    {doc:"47101040",nombre:"Juan",    apellidos:"Vial",     estado:"Enviado por correo"},
+    {doc:"47101041",nombre:"Raul",    apellidos:"Chiroque", estado:"Observado, contactarse con dni@consulado-peru.com"},
+    {doc:"47101042",nombre:"Jacki",   apellidos:"Sandoval", estado:"Listo para recoger en la oficina"},
+    {doc:"47101043",nombre:"Ricardo", apellidos:"Leon",     estado:"Enviado por correo"},
+    {doc:"47101044",nombre:"Thomas",  apellidos:"Marquez",  estado:"Observado, contactarse con dni@consulado-peru.com"},
+    {doc:"47101045",nombre:"Roger",   apellidos:"Hernandez",estado:"Enviado por correo"},
+    {doc:"47101046",nombre:"Juanita", apellidos:"Puyol",    estado:"Listo para recoger en la oficina"},
+    {doc:"47101047",nombre:"Andrea",  apellidos:"Oncoy",    estado:"Listo para recoger en la oficina"},
+    {doc:"47101048",nombre:"Elvira",  apellidos:"Riquelme", estado:"Observado, contactarse con dni@consulado-peru.com"}
+  ],
+  pasaporte: [
+    {doc:"47101040",nombre:"Juan",    apellidos:"Vial",     estado:"Enviado por correo"},
+    {doc:"47101041",nombre:"Raul",    apellidos:"Chiroque", estado:"Listo para recoger en la oficina"},
+    {doc:"47101042",nombre:"Jacki",   apellidos:"Sandoval", estado:"Listo para recoger en la oficina"},
+    {doc:"47101043",nombre:"Ricardo", apellidos:"Leon",     estado:"Enviado por correo"},
+    {doc:"47101044",nombre:"Thomas",  apellidos:"Marquez",  estado:"Listo para recoger en la oficina"},
+    {doc:"47101045",nombre:"Roger",   apellidos:"Hernandez",estado:"Enviado por correo"},
+    {doc:"47101046",nombre:"Juanita", apellidos:"Puyol",    estado:"Listo para recoger en la oficina"},
+    {doc:"47101047",nombre:"Andrea",  apellidos:"Oncoy",    estado:"Listo para recoger en la oficina"},
+    {doc:"47101048",nombre:"Elvira",  apellidos:"Riquelme", estado:"Enviado por correo"}
+  ]
+};
+
+let tipo = 'dni';
+const btnDni  = document.getElementById('btn-dni');
+const btnPas  = document.getElementById('btn-pas');
+const lbl     = document.getElementById('search-label');
+const input   = document.getElementById('search-input');
+const btnBus  = document.getElementById('btn-buscar');
+const resWrap = document.getElementById('resultado-wrap');
+
+function ajustarPadding() {
+  const b = document.getElementById('banner-wrap');
+  if (b) document.body.style.paddingBottom = (b.offsetHeight + 32) + 'px';
+}
+window.addEventListener('load', ajustarPadding);
+window.addEventListener('resize', ajustarPadding);
+
+function elegir(t) {
+  tipo = t;
+  btnDni.classList.toggle('activo', t === 'dni');
+  btnPas.classList.toggle('activo', t === 'pasaporte');
+  lbl.textContent = 'Número de DNI';
+  input.value = '';
+  resWrap.classList.remove('visible');
+  resWrap.innerHTML = '';
+  input.focus();
+}
+btnDni.addEventListener('click', () => elegir('dni'));
+btnPas.addEventListener('click', () => elegir('pasaporte'));
+
+function badgeClass(e) {
+  const t = e.toLowerCase();
+  if (t.includes('listo'))     return 'ok';
+  if (t.includes('observado')) return 'alerta';
+  return 'info';
+}
+function formatEstado(estado) {
+  const m = estado.match(/([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})/);
+  if (m) {
+    const texto = estado.replace(m[0], '').replace(/,\s*$/, '').trim();
+    return `${texto} <a href="mailto:${m[0]}" style="color:inherit;font-weight:700;text-decoration:underline;">${m[0]}</a>`;
+  }
+  return estado;
+}
+
+function buscar() {
+  const val = input.value.trim();
+  if (!val) { input.focus(); return; }
+  const etq = tipo === 'dni' ? 'DNI' : 'Pasaporte';
+  const rec  = (DB[tipo] || []).find(r => r.doc === val);
+
+  resWrap.innerHTML = rec
+    ? `<div class="resultado-header"><h2>Resultado encontrado</h2></div>
+       <div class="datos-grid">
+         <div class="dato-item">
+           <span class="dato-label">DNI</span>
+           <span class="dato-valor">${rec.doc}</span>
+         </div>
+         <div class="dato-item">
+           <span class="dato-label">Nombre completo</span>
+           <span class="dato-valor">${rec.nombre} ${rec.apellidos}</span>
+         </div>
+         <div class="dato-item">
+           <span class="dato-label">Estado del trámite</span>
+           <span class="dato-valor">
+             <span class="badge ${badgeClass(rec.estado)}">${formatEstado(rec.estado)}</span>
+           </span>
+         </div>
+       </div>`
+    : `<div class="no-encontrado">
+         No se encontró ningún trámite para el ${etq.toLowerCase()}
+         <strong>${val}</strong>.
+         Verifique el número ingresado o comuníquese con el Consulado.
+       </div>`;
+
+  resWrap.classList.add('visible');
+}
+btnBus.addEventListener('click', buscar);
+input.addEventListener('keydown', e => { if (e.key === 'Enter') buscar(); });
+
+/* ROTACIÓN BANNERS */
+const slides = document.querySelectorAll('.banner-slide');
+const dots   = document.querySelectorAll('.dot');
+let idx = 0;
+
+function irA(n) {
+  slides[idx].classList.remove('activo');
+  dots[idx].classList.remove('activo');
+  idx = n;
+  slides[idx].classList.add('activo');
+  dots[idx].classList.add('activo');
+}
+dots.forEach(d => d.addEventListener('click', () => irA(+d.dataset.idx)));
+if (slides.length > 1) {
+  setInterval(() => irA((idx + 1) % slides.length), 15000);
+}
+</script>
+</body>
+</html>
