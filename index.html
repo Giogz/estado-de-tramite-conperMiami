@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulado General del Perú en Miami</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rojo:#D2232A;--rojo-dark:#B01D23;--gris:#58595B;
+  --gris-claro:#f4f4f5;--gris-borde:#e0e0e1;--negro:#1a1a1c;
+  --blanco:#ffffff;--sombra:0 2px 12px rgba(0,0,0,.09);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--gris-claro);color:var(--negro);
+  -webkit-font-smoothing:antialiased;
+  /* Espacio para banner fijo abajo */
+  padding-bottom:calc(clamp(80px,12vw,150px) + 24px);
+}
+
+/* ══ HEADER ══════════════════════════════════════════════ */
+.site-header{
+  background:#fff;border-bottom:4px solid var(--rojo);
+  padding:12px 20px;display:flex;flex-direction:column;
+  align-items:center;gap:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.07);
+}
+.site-header img{max-height:64px;width:auto;max-width:100%}
+.header-contacto{
+  font-size:.78rem;color:var(--gris);text-align:center;line-height:1.5;
+}
+.header-contacto a{color:var(--rojo);font-weight:600;text-decoration:none}
+.header-contacto a:hover{text-decoration:underline}
+
+/* ══ WRAP ════════════════════════════════════════════════ */
+.page-wrap{max-width:860px;margin:0 auto;padding:24px 16px 0}
+
+/* ══ SECCIÓN LABELS ══════════════════════════════════════ */
+.sec-label{
+  font-size:.68rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:.1em;color:#9a9a9e;margin-bottom:12px;
+}
+
+/* ══ CARRUSEL DE NOTICIAS ════════════════════════════════ */
+.carousel-wrap{position:relative;margin-bottom:28px;overflow:hidden}
+.carousel-track{
+  display:flex;transition:transform .4s ease;will-change:transform;
+}
+.carousel-slide{
+  min-width:calc(50% - 6px);margin-right:12px;
+}
+@media(max-width:520px){
+  .carousel-slide{min-width:calc(100% - 0px);margin-right:12px;}
+}
+.noticia-card{
+  background:#fff;border-radius:12px;border:1px solid var(--gris-borde);
+  overflow:hidden;box-shadow:var(--sombra);text-decoration:none;
+  color:inherit;display:block;height:100%;
+  transition:transform .15s,box-shadow .15s;
+}
+.noticia-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.13)}
+.noticia-img{
+  width:100%;aspect-ratio:1/1;overflow:hidden;background:var(--gris-borde);
+}
+.noticia-img img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  display:block;transition:transform .3s ease;
+}
+.noticia-card:hover .noticia-img img{transform:scale(1.04)}
+.noticia-texto{
+  padding:10px 13px 14px;font-size:.78rem;color:var(--gris);
+  line-height:1.5;font-weight:500;
+}
+
+/* Botones del carrusel */
+.carousel-btn{
+  position:absolute;top:40%;transform:translateY(-50%);
+  background:#fff;border:1px solid var(--gris-borde);
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.12);
+  font-size:1rem;color:var(--gris);transition:background .12s;
+  -webkit-tap-highlight-color:transparent;
+}
+.carousel-btn:hover{background:var(--rojo);color:#fff;border-color:var(--rojo)}
+.carousel-btn.prev{left:4px}
+.carousel-btn.next{right:4px}
+
+/* Dots del carrusel */
+.carousel-dots{
+  display:flex;justify-content:center;gap:6px;margin-top:10px;
+}
+.c-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--gris-borde);cursor:pointer;transition:all .2s;
+  border:none;padding:0;
+}
+.c-dot.on{background:var(--rojo);width:18px;border-radius:4px}
+
+/* ══ BOTONES PRINCIPALES ═════════════════════════════════ */
+.botones-principales{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px;
+}
+@media(max-width:400px){.botones-principales{grid-template-columns:1fr}}
+
+.btn-principal{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px 12px;border-radius:14px;text-decoration:none;
+  font-weight:800;font-size:clamp(.9rem,3vw,1.05rem);
+  box-shadow:0 3px 12px rgba(0,0,0,.15);text-align:center;
+  border:none;cursor:pointer;transition:transform .12s,box-shadow .12s;
+  line-height:1.3;
+}
+.btn-principal:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.18)}
+.btn-principal:active{transform:translateY(0)}
+.btn-citas{background:var(--rojo);color:#fff}
+.btn-tramite{background:var(--gris);color:#fff}
+
+/* ══ ÍNDICE CATEGORÍAS ═══════════════════════════════════ */
+.cat-item{
+  background:#fff;border:1px solid var(--gris-borde);
+  border-radius:12px;margin-bottom:8px;overflow:hidden;
+  box-shadow:var(--sombra);
+}
+.cat-btn{
+  width:100%;display:flex;align-items:center;
+  padding:15px 16px;background:none;border:none;
+  cursor:pointer;font-size:clamp(.9rem,2.5vw,1rem);
+  font-weight:700;color:var(--negro);text-align:left;
+  gap:12px;transition:background .12s;
+  -webkit-tap-highlight-color:transparent;
+}
+.cat-btn:hover{background:var(--gris-claro)}
+.cat-btn.open{color:var(--rojo)}
+.cat-btn.open .chev{transform:rotate(180deg)}
+.cat-letra{
+  background:var(--rojo);color:#fff;font-size:.68rem;font-weight:800;
+  width:26px;height:26px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.cat-nombre{flex:1}
+.chev{font-size:.72rem;color:#bbb;transition:transform .2s;flex-shrink:0}
+.svcs{display:none;border-top:1px solid var(--gris-borde);padding:6px 0}
+.svcs.open{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.svc-link{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px 10px 52px;text-decoration:none;
+  color:var(--gris);font-size:clamp(.82rem,2.5vw,.92rem);font-weight:500;
+  transition:background .1s,color .1s;border-left:3px solid transparent;
+}
+.svc-link:hover{background:#fff5f5;color:var(--rojo);border-left-color:var(--rojo)}
+.svc-link::before{content:"→";font-size:.75rem;color:var(--rojo);opacity:.6}
+
+/* ══ FOOTER ══════════════════════════════════════════════ */
+.footer{
+  text-align:center;padding:20px 16px 8px;
+  max-width:860px;margin:0 auto;
+}
+.footer p{font-size:.78rem;color:#9a9a9e;line-height:1.6}
+.footer a{color:var(--rojo);font-weight:600;text-decoration:none}
+.footer .dev{font-size:.7rem;color:#c0c0c4;margin-top:4px;font-style:italic}
+.heart{color:var(--rojo);font-style:normal;display:inline-block;animation:lat 1.2s ease-in-out infinite}
+@keyframes lat{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}};
+
+/* ══ BANNER STICKY BOTTOM ════════════════════════════════ */
+.banner-wrap{
+  position:fixed;bottom:0;left:0;width:100%;
+  height:clamp(80px,12vw,150px);
+  z-index:1000;overflow:hidden;
+  box-shadow:0 -3px 16px rgba(0,0,0,.2);
+}
+.banner-slide{
+  position:absolute;inset:0;opacity:0;
+  transition:opacity 1s ease-in-out;
+}
+.banner-slide.on{opacity:1}
+.banner-slide img{
+  display:block;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
+.banner-dots-fixed{
+  position:fixed;bottom:3px;left:50%;
+  transform:translateX(-50%);
+  display:flex;gap:5px;z-index:1001;
+}
+.bdot{
+  width:5px;height:5px;border-radius:999px;
+  background:rgba(255,255,255,.4);transition:all .3s;cursor:pointer;border:none;padding:0;
+}
+.bdot.on{background:#fff;width:14px}
+</style>
+</head>
+<body>
+
+<!-- HEADER CON CONTACTO -->
+<header class="site-header">
+  <img src="assets/logo.png" alt="Consulado General del Perú en Miami">
+  <p class="header-contacto">
+    Si tiene alguna consulta comuníquese con
+    <a href="mailto:informacion@consulado-peru.com">informacion@consulado-peru.com</a>
+    &nbsp;·&nbsp; (786) 713-2401
+  </p>
+</header>
+
+<div class="page-wrap">
+
+  <!-- ══ CARRUSEL NOTICIAS ══════════════════════════════ -->
+  <p class="sec-label">Noticias y comunicados</p>
+  <div class="carousel-wrap" id="cw">
+    <button class="carousel-btn prev" id="cprev" aria-label="Anterior">&#8249;</button>
+    <div class="carousel-track" id="ctrack">
+      <div class="carousel-slide">
+        <a class="noticia-card" href="https://www.adp.edu.pe" target="_blank" rel="noopener">
+          <div class="noticia-img"><img src="assets/noticias/noticia-01-academia-diplomatica.jpg" alt="Academia Diplomática"></div>
+          <p class="noticia-texto">¿Quieres ser diplomático/a? Conoce la Academia Diplomática del Perú. Requisitos: ser peruano/a, bachiller, máx. 30 años e inglés intermedio.</p>
+        </a>
+      </div>
+      <div class="carousel-slide">
+        <a class="noticia-card" href="https://peru.as.me/schedule/72d07221" target="_blank" rel="noopener">
+          <div class="noticia-img"><img src="assets/noticias/noticia-02-consulado-itinerante.jpg" alt="Consulado Itinerante Fort Myers"></div>
+          <p class="noticia-texto">Consulado Itinerante en Fort Myers. Sáb. 11 de julio, 8 AM–6 PM. Hyatt Place, 2600 Champion Ring Rd. DNI, pasaporte, notariales y más.</p>
+        </a>
+      </div>
+      <div class="carousel-slide">
+        <div class="noticia-card" style="cursor:default">
+          <div class="noticia-img"><img src="assets/noticias/noticia-03-aviso-pasaportes.jpg" alt="Aviso pasaportes"></div>
+          <p class="noticia-texto">Aviso: pasaportes tramitados hasta el 3 de junio listos para recoger. Sin cita previa, 8 AM–2 PM. Envío USPS llegará a domicilio.</p>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <a class="noticia-card" href="http://marlinsbeisbol.com/peru" target="_blank" rel="noopener">
+          <div class="noticia-img"><img src="assets/noticias/noticia-04-marlins-herencia-peruana.jpg" alt="Herencia Peruana Marlins"></div>
+          <p class="noticia-texto">Herencia Peruana con los Miami Marlins. Dom. 26 de julio vs. San Diego Padres. Show de danza 1 PM, partido 1:40 PM. Entrada incluye camiseta.</p>
+        </a>
+      </div>
+    </div>
+    <button class="carousel-btn next" id="cnext" aria-label="Siguiente">&#8250;</button>
+  </div>
+  <div class="carousel-dots" id="cdots">
+    <button class="c-dot on" data-i="0"></button>
+    <button class="c-dot" data-i="1"></button>
+    <button class="c-dot" data-i="2"></button>
+    <button class="c-dot" data-i="3"></button>
+  </div>
+
+  <!-- ══ BOTONES PRINCIPALES ════════════════════════════ -->
+  <div class="botones-principales" style="margin-top:24px">
+    <a class="btn-principal btn-citas" href="https://peru.as.me/schedule/72d07221" target="_blank" rel="noopener">
+      Haz tu cita
+    </a>
+    <a class="btn-principal btn-tramite" href="tramites.html">
+      Estado de mi trámite
+    </a>
+  </div>
+
+  <!-- ══ ÍNDICE OFICIAL DE CATEGORÍAS ══════════════════ -->
+  <p class="sec-label">Servicios consulares — índice por categoría</p>
+
+  <!-- 1. ASISTENCIA CONSULAR -->
+  <div class="cat-item">
+    <button class="cat-btn" onclick="tog(this)">
+      <span class="cat-letra">A</span>
+      <span class="cat-nombre">Asistencia Consular</span>
+      <span class="chev">▼</span>
+    </button>
+    <div class="svcs">
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Protección y asistencia a peruanos en el extranjero</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Asistencia humanitaria en situaciones de emergencia</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Certificado de supervivencia (fe de vida)</a>
+      <a class="svc-link" href="https://www.consulado.pe/es/Miami/Paginas/Contactenos.aspx" target="_blank">Contacto de emergencia consular</a>
+    </div>
+  </div>
+
+  <!-- 2. DNI -->
+  <div class="cat-item">
+    <button class="cat-btn" onclick="tog(this)">
+      <span class="cat-letra">D</span>
+      <span class="cat-nombre">DNI</span>
+      <span class="chev">▼</span>
+    </button>
+    <div class="svcs">
+      <a class="svc-link" href="https://www.gob.pe/101705-consulado-general-del-peru-en-miami-solicitar-renovacion-de-dni-de-mayor-de-edad-en-el-extranjero" target="_blank">Renovación de DNI de mayor de edad en el extranjero</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tema/dni" target="_blank">Primer DNI para peruano mayor de 20 años sin DNI previo</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tema/dni" target="_blank">DNI para menor de edad nacido en el extranjero</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tema/dni" target="_blank">Actualización o rectificación de datos en el DNI</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tema/dni" target="_blank">Reposición de DNI por robo, pérdida o deterioro</a>
+    </div>
+  </div>
+
+  <!-- 3. ESCRITURAS PÚBLICAS -->
+  <div class="cat-item">
+    <button class="cat-btn" onclick="tog(this)">
+      <span class="cat-letra">E</span>
+      <span class="cat-nombre">Escrituras Públicas</span>
+      <span class="chev">▼</span>
+    </button>
+    <div class="svcs">
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Escritura pública de compraventa</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Escritura pública de donación</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Poder por escritura pública</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Declaración de voluntad anticipada</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Protocolización de documentos</a>
+    </div>
+  </div>
+
+  <!-- 4. PASAPORTES -->
+  <div class="cat-item">
+    <button class="cat-btn" onclick="tog(this)">
+      <span class="cat-letra">P</span>
+      <span class="cat-nombre">Pasaportes</span>
+      <span class="chev">▼</span>
+    </button>
+    <div class="svcs">
+      <a class="svc-link" href="https://www.consulado.pe/es/Miami/tramite/Paginas/pasaporte.aspx" target="_blank">Emisión de pasaporte biométrico (primera vez)</a>
+      <a class="svc-link" href="https://www.consulado.pe/es/Miami/tramite/Paginas/pasaporte.aspx" target="_blank">Renovación de pasaporte biométrico</a>
+      <a class="svc-link" href="https://www.consulado.pe/es/Miami/tramite/Paginas/pasaporte.aspx" target="_blank">Pasaporte para menor de edad</a>
+      <a class="svc-link" href="https://www.consulado.pe/es/Miami/tramite/Paginas/pasaporte.aspx" target="_blank">Salvoconducto de viaje</a>
+    </div>
+  </div>
+
+  <!-- 5. POLÍTICA MIGRATORIA -->
+  <div class="cat-item">
+    <button class="cat-btn" onclick="tog(this)">
+      <span class="cat-letra">P</span>
+      <span class="cat-nombre">Política Migratoria</span>
+      <span class="chev">▼</span>
+    </button>
+    <div class="svcs">
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Autorización de viaje de menor de edad al exterior</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Carta de No Objeción para ciudadanos peruanos</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Inscripción en el Registro de Nacionales en el Exterior</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Certificado de movimiento migratorio</a>
+    </div>
+  </div>
+
+  <!-- 6. REGISTROS CIVILES -->
+  <div class="cat-item">
+    <button class="cat-btn" onclick="tog(this)">
+      <span class="cat-letra">R</span>
+      <span class="cat-nombre">Registros Civiles</span>
+      <span class="chev">▼</span>
+    </button>
+    <div class="svcs">
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Inscripción de nacimiento de menor nacido en el extranjero</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Inscripción de matrimonio celebrado en el extranjero</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Registro de defunción de peruano en el extranjero</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Copia certificada de acta de nacimiento, matrimonio o defunción</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Rectificación de actas del registro civil consular</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Reconocimiento de paternidad o maternidad</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Divorcio notarial en actas del Registro Civil Consular</a>
+    </div>
+  </div>
+
+  <!-- 7. TRÁMITES NOTARIALES -->
+  <div class="cat-item">
+    <button class="cat-btn" onclick="tog(this)">
+      <span class="cat-letra">T</span>
+      <span class="cat-nombre">Trámites Notariales</span>
+      <span class="chev">▼</span>
+    </button>
+    <div class="svcs">
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Poder fuera de registro</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Declaraciones juradas</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Legalización de firmas y documentos</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Certificado de antecedentes penales</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Supervivencia</a>
+    </div>
+  </div>
+
+  <!-- 8. VISAS -->
+  <div class="cat-item">
+    <button class="cat-btn" onclick="tog(this)">
+      <span class="cat-letra">V</span>
+      <span class="cat-nombre">Visas</span>
+      <span class="chev">▼</span>
+    </button>
+    <div class="svcs">
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Visa de turismo para extranjeros que viajan a Perú</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Visa de negocios</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Visa de estudiante</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Visa de periodista</a>
+      <a class="svc-link" href="https://www.gob.pe/institucion/consulado-del-peru-en-miami/tramites-y-servicios" target="_blank">Visa de inmigrante</a>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<footer class="footer">
+  <p class="dev">Developed with <span class="heart">♥</span> by Gio</p>
+</footer>
+
+<!-- ══ BANNER STICKY BOTTOM ═══════════════════════════════ -->
+<div class="banner-wrap" id="bwrap">
+  <div class="banner-slide on"><img src="assets/banners/banner-01-workshop-perusa.png" alt="Banner 1"></div><div class="banner-slide"><img src="assets/banners/banner-02-anunciar-aqui.png" alt="Banner 2"></div><div class="banner-slide"><img src="assets/banners/banner-03-garden-guru.png" alt="Banner 3"></div><div class="banner-slide"><img src="assets/banners/banner-04-anunciar-aqui-2.png" alt="Banner 4"></div><div class="banner-slide"><img src="assets/banners/banner-05-fried-chicken.png" alt="Banner 5"></div><div class="banner-slide"><img src="assets/banners/banner-04-anunciar-aqui-2.png" alt="Banner 6"></div>
+</div>
+<div class="banner-dots-fixed" id="bdots">
+  <button class="bdot on" data-i="0"></button><button class="bdot" data-i="1"></button><button class="bdot" data-i="2"></button><button class="bdot" data-i="3"></button><button class="bdot" data-i="4"></button><button class="bdot" data-i="5"></button>
+</div>
+
+<script>
+/* ══ CARRUSEL NOTICIAS ══════════════════════════════════ */
+const track = document.getElementById('ctrack');
+const slides = track.querySelectorAll('.carousel-slide');
+const dots   = document.querySelectorAll('#cdots .c-dot');
+let cur = 0, total = slides.length;
+
+function slidesVisible() {
+  return window.innerWidth <= 520 ? 1 : 2;
+}
+
+function goTo(n) {
+  const vis = slidesVisible();
+  const max = total - vis;
+  cur = Math.max(0, Math.min(n, max));
+  const w = slides[0].offsetWidth + 12;
+  track.style.transform = `translateX(${-cur * w}px)`;
+  dots.forEach((d,i) => d.classList.toggle('on', i === cur));
+}
+
+document.getElementById('cprev').addEventListener('click', () => goTo(cur - 1));
+document.getElementById('cnext').addEventListener('click', () => goTo(cur + 1));
+dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.i)));
+window.addEventListener('resize', () => goTo(cur));
+
+/* Touch swipe */
+let tx = 0;
+track.addEventListener('touchstart', e => tx = e.touches[0].clientX, {passive:true});
+track.addEventListener('touchend',   e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 40) goTo(dx > 0 ? cur + 1 : cur - 1);
+}, {passive:true});
+
+/* Auto-play cada 5s */
+setInterval(() => goTo((cur + 1) % (total - slidesVisible() + 1)), 5000);
+
+/* ══ ACORDEÓN CATEGORÍAS ════════════════════════════════ */
+function tog(btn) {
+  const lista  = btn.nextElementSibling;
+  const abierto = lista.classList.contains('open');
+  document.querySelectorAll('.svcs.open').forEach(l => l.classList.remove('open'));
+  document.querySelectorAll('.cat-btn.open').forEach(b => b.classList.remove('open'));
+  if (!abierto) {
+    lista.classList.add('open');
+    btn.classList.add('open');
+    setTimeout(() => btn.scrollIntoView({behavior:'smooth',block:'nearest'}), 50);
+  }
+}
+
+/* ══ BANNER ROTATORIO STICKY ════════════════════════════ */
+const bslides = document.querySelectorAll('.banner-slide');
+const bdots   = document.querySelectorAll('#bdots .bdot');
+let bi = 0;
+function bannerGo(n) {
+  bslides[bi].classList.remove('on'); bdots[bi].classList.remove('on');
+  bi = n;
+  bslides[bi].classList.add('on'); bdots[bi].classList.add('on');
+}
+bdots.forEach(d => d.addEventListener('click', () => bannerGo(+d.dataset.i)));
+setInterval(() => bannerGo((bi + 1) % bslides.length), 15000);
+
+/* Padding dinámico para el banner fijo */
+function ajustar() {
+  const h = document.getElementById('bwrap').offsetHeight;
+  document.body.style.paddingBottom = (h + 8) + 'px';
+}
+window.addEventListener('load', ajustar);
+window.addEventListener('resize', ajustar);
+</script>
+</body>
+</html>
