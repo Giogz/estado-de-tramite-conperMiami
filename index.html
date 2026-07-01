@@ -16,8 +16,8 @@ body{
   font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   background:var(--gris-claro);color:var(--negro);
   -webkit-font-smoothing:antialiased;
-  /* Espacio para banner fijo abajo */
-  padding-bottom:calc(clamp(80px,12vw,150px) + 24px);
+  /* Espacio para banner fijo abajo 
+  padding-bottom:calc(clamp(80px,12vw,150px) + 24px);*/
 }
 
 /* ══ HEADER ══════════════════════════════════════════════ */
@@ -164,36 +164,6 @@ body{
 .footer .dev{font-size:.7rem;color:#c0c0c4;margin-top:4px;font-style:italic}
 .heart{color:var(--rojo);font-style:normal;display:inline-block;animation:lat 1.2s ease-in-out infinite}
 @keyframes lat{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}};
-
-/* ══ BANNER STICKY BOTTOM ════════════════════════════════ */
-.banner-wrap{
-  position:fixed;bottom:0;left:0;width:100%;
-  height:clamp(40px,12vw,75px);
-  z-index:100;overflow:hidden;
-  box-shadow:0 -3px 16px rgba(0,0,0,.2);
-}
-.banner-slide{
-  position:absolute;inset:0;opacity:0;
-  transition:opacity 1s ease-in-out;
-}
-.banner-slide.on{opacity:1}
-.banner-slide img{
-  display:block;width:100%;height:100%;
-  object-fit:cover;object-position:center;
-}
-.banner-dots-fixed{
-  position:fixed;bottom:3px;left:50%;
-  transform:translateX(-50%);
-  display:flex;gap:5px;z-index:1001;
-}
-.bdot{
-  width:5px;height:5px;border-radius:999px;
-  background:rgba(255,255,255,.4);transition:all .3s;cursor:pointer;border:none;padding:0;
-}
-.bdot.on{background:#fff;width:14px}
-</style>
-</head>
-<body>
 
 <!-- HEADER CON CONTACTO -->
 <header class="site-header">
@@ -392,13 +362,6 @@ body{
   <p class="dev">Developed with <span class="heart">♥</span> by Gio</p>
 </footer>
 
-<!-- ══ BANNER STICKY BOTTOM ═══════════════════════════════ -->
-<div class="banner-wrap" id="bwrap">
-  <div class="banner-slide on"><img src="assets/banners/banner-01-workshop-perusa.png" alt="Banner 1"></div><div class="banner-slide"><img src="assets/banners/banner-02-anunciar-aqui.png" alt="Banner 2"></div><div class="banner-slide"><img src="assets/banners/banner-03-garden-guru.png" alt="Banner 3"></div><div class="banner-slide"><img src="assets/banners/banner-04-anunciar-aqui-2.png" alt="Banner 4"></div><div class="banner-slide"><img src="assets/banners/banner-05-fried-chicken.png" alt="Banner 5"></div><div class="banner-slide"><img src="assets/banners/banner-04-anunciar-aqui-2.png" alt="Banner 6"></div>
-</div>
-<div class="banner-dots-fixed" id="bdots">
-  <button class="bdot on" data-i="0"></button><button class="bdot" data-i="1"></button><button class="bdot" data-i="2"></button><button class="bdot" data-i="3"></button><button class="bdot" data-i="4"></button><button class="bdot" data-i="5"></button>
-</div>
 
 <script>
 /* ══ CARRUSEL NOTICIAS ══════════════════════════════════ */
