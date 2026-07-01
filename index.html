@@ -165,33 +165,69 @@ body{
 .heart{color:var(--rojo);font-style:normal;display:inline-block;animation:lat 1.2s ease-in-out infinite}
 @keyframes lat{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}};
 
-/* ══ BANNER STICKY BOTTOM ════════════════════════════════ */
+/* ══ BANNER STICKY BOTTOM RESPONSIVE ════════════════════ */
 .banner-wrap{
-  position:fixed;bottom:0;left:0;width:100%;
-  height:clamp(80px,12vw,150px);
-  z-index:1000;overflow:hidden;
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:min(18vw,180px);
+  min-height:90px;
+  background:#fff;
+  z-index:1000;
+  overflow:hidden;
   box-shadow:0 -3px 16px rgba(0,0,0,.2);
 }
+
 .banner-slide{
-  position:absolute;inset:0;opacity:0;
+  position:absolute;
+  inset:0;
+  opacity:0;
   transition:opacity 1s ease-in-out;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.banner-slide.on{opacity:1}
+
+.banner-slide.on{
+  opacity:1;
+}
+
 .banner-slide img{
-  display:block;width:100%;height:100%;
-  object-fit:cover;object-position:center;
+  max-width:100%;
+  max-height:100%;
+  width:auto;
+  height:auto;
+  display:block;
+  object-fit:contain;
 }
+
 .banner-dots-fixed{
-  position:fixed;bottom:3px;left:50%;
+  position:fixed;
+  bottom:5px;
+  left:50%;
   transform:translateX(-50%);
-  display:flex;gap:5px;z-index:1001;
+  display:flex;
+  gap:5px;
+  z-index:1001;
 }
+
 .bdot{
-  width:5px;height:5px;border-radius:999px;
-  background:rgba(255,255,255,.4);transition:all .3s;cursor:pointer;border:none;padding:0;
+  width:5px;
+  height:5px;
+  border-radius:999px;
+  background:rgba(255,255,255,.5);
+  transition:all .3s;
+  cursor:pointer;
+  border:none;
+  padding:0;
 }
-.bdot.on{background:#fff;width:14px}
-</style>
+
+.bdot.on{
+  background:#fff;
+  width:14px;
+}</style>
 </head>
 <body>
 
